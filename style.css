@@ -59,6 +59,23 @@ h2 {
     height: auto;
 }
 
+.instagram-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #405DE6; /* Instagram brand color */
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.instagram-button:hover {
+    background-color: #577EE6; /* Slightly darker shade for hover effect */
+}
+
 /* Footer styles */
 footer {
     background-color: #007bff;
