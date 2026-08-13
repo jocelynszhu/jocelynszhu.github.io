@@ -4,150 +4,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: "Times New Roman", Times, serif;
-            line-height: 1.6;
-            background-color: #d1d6c8;
-            color: #412407;
-            margin: 0;
-            padding: 0;
-        }
-
-        a{
-            color: #8c7965;
-            text-decoration: none;
-        }
-
-        strong{
-            font-style:oblique
-        }
-
-        article {
-            display: flex;
-            max-width: 900px;
-            margin: 30px auto;
-            padding: 0 20px;
-            gap: 5px;
-            flex-direction: column;
-        }
-
-        h1{
-            margin-bottom: 15px;
-            font-weight: 600;
-            font-size: xx-large;
-            font-style:oblique;
-        }
-        h2 {
-            margin: 10px 0;
-            font-weight: 600;
-        }
-
-        .profile-container {
-            display: flex;
-            gap: 20px;
-        }
-
-        .profile-image {
-            width: 30%;
-            height: fit-content;
-        }
-
-        .profile-text {
-            padding: 0 20px;
-            flex: 1;
-        }
-
-        @media (max-width: 768px) {
-            .profile-container {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .profile-image {
-                width: 70%;
-                max-width: 300px;
-            }
-
-            .profile-text {
-                padding: 20px 0 0 0;
-            }
-
-            h1 {
-                font-size: x-large;
-                text-align: center;
-            }
-
-            article {
-                padding: 0 15px;
-                margin: 20px auto;
-            }
-        }
-    </style>
+    <title>Jocelyn Zhu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
+    <header class="site-header">
+        <div class="site-title"><a href="index.html">Jocelyn Zhu</a></div>
+        <nav class="site-nav">
+            <a href="index.html" aria-current="page">about</a>
+            <a href="research.html">research</a>
+            <a href="artlab.html">artlab</a>
+        </nav>
+    </header>
+
     <article>
         <div class="profile-container">
             <img class="profile-image" src="Jocelyn.jpeg" alt="Jocelyn Zhu">
             <div class="profile-text">
-                <h1>
-                    Jocelyn Zhu | jszhu@mit.edu
-                </h1>
-                <p>I am an MEng student at MIT in Computation and Cognition, having graduated with a B.S. in Spring of 2025. In the fall, I will be starting a PhD in Public Policy at the Harvard Kennedy School (Judgement and Decision Making track). Currently, I work with several labs across the Institute in Computational Social Research, including the <a href="https://davidrand-cooperation.com/lab">Human Cooperation Lab</a> and <a href="https://mitsloan.mit.edu/faculty/directory/jimin-nam">Consumer Attention Lab</a>. <br>
-                    <br>Previously, I have interned at <a href="https://native.com/">Native Design</a> in London as an AI Technology Intern, where I researched and developed NLP applications for consumer technology. As a Summer@EPFL Fellow, I researched task-agnostic, few-shot learning implementations for Biomedical Data at the <a href="https://brbiclab.epfl.ch/">MLBio Lab</a> in Lausanne, Switzerland. 
+                <p>I am a first-year PhD student in Public Policy (Judgment and Decision Making) at the Harvard Kennedy School. Before Harvard, I completed my B.S and M.Eng in Computation and Cognition at MIT, where I was fortunate to work with the <a href="https://davidrand-cooperation.com/lab">Human Cooperation Lab</a> and <a href="https://mitsloan.mit.edu/faculty/directory/jimin-nam">Consumer Attention Lab</a>.
+                    <br>
+                    <br>I study how digital technologies like social media and AI shape how people form beliefs, make judgments, and navigate an increasingly machine-mediated information environment.
                 </p>
+                <div class="contact-icons">
+                    <a href="mailto:jocelynzhu@fas.harvard.edu" aria-label="Email">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect x="2.5" y="4.5" width="19" height="15" rx="2"></rect>
+                            <path d="M3 6.5l9 6.5 9-6.5"></path>
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/zhujocelyn/" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3V9zm7 0h3.8v1.65h.05c.53-.95 1.83-1.95 3.75-1.95 4 0 4.4 2.5 4.4 5.75V21h-4v-5.6c0-1.35-.03-3.1-1.9-3.1-1.9 0-2.2 1.48-2.2 3v5.7h-3.9V9z"></path>
+                        </svg>
+                    </a>
+                </div>
             </div>
         </div>
-            <h2>Current Projects</h2>
-                <p>
-                    <strong>Field Experiment in the Effectiveness of LLMs in Debunking Conspiracy Theories on Social Media Platforms
-                    </strong><br>
-                    <i>with Hause Lin, David Spitz, and David Rand</i>
-                </p>
-                <p>
-                    <strong>User-based Value Alignment for Large Language Models
-                    </strong><br>
-                    <i>with Jakob Stenseke, Jimin Nam, and Dylan Hadfield-Menell</i>
-                </p>
-                <p>
-                    <strong>Political Persuasiveness of Moral Appeals and Downstream Effects on Pro-sociality</strong><br>
-                    <i>with Jimin Nam</i>
-                </p>
-        <div>
-        </div>
-            <h2>Research</h2>
-                <p><strong>Should Language Models Vote Like Us or in Our Best Interest?</strong><br>
-                    Fulay, Suyash, Zhu, Jocelyn, Roy, Deb, Bakker, Michiel.<br>
-                    <i>EACL, IASEAI</i>, 2026
-                </p>
-                <p><strong> Consumer Assessments of LLM Persuasion on Brand Preference</strong><br>
-                    Zhu, Jocelyn, Nam, Jimin.<br>
-                    <i>EACL, IASEAI</i>, 2026
-                </p>
-                <p><strong>Deep transfer learning artificial intelligence accurately stages COVID-19 lung disease severity on portable chest radiographs</strong><br>
-                    Zhu, Jocelyn, Shen, Beiyi, Duong, Tim, et al.<br>
-                    <i>PloS one</i>, 2020
-                </p>
-                <p><strong>Deep‐learning artificial intelligence analysis of clinical variables predicts mortality in COVID‐19 patients</strong><br>
-                Zhu, Jocelyn, Ge, Peilin, Jiang, Chunguo, et al.<br>
-                <i>JACEP Open</i>, 2020
-                </p>
-            
-            <h2>Teaching</h2>
-            <p>I was previously a Teaching Assistant for <i>Nonviolence as a Way of Life</i> with TEJI (The Educational Justice Institute) @ MIT, facilitating class sessions and coordinating logistics for MIT and incarcerated students. I have also taught for MEET (Middle East Entrepreneurs of Tomorrow), where I mentored Israeli and Palestinian students as part of a binational educational program for Entrepreneurship and Computer Science.</p>
-    <div>   
 
-        </div>
     </article>
-
-
 
 </body>
 
