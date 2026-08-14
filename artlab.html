@@ -22,12 +22,247 @@
     </header>
 
     <article>
-        <p>Monthly experiments, delivered to your mailbox.</p>
-        <p><i>More soon.</i></p>
-        <img src="artlab.png" alt="Art Overview">
+        <!-- <p>Monthly experiments, delivered to your mailbox.</p> -->
+  
+
+        <p>Art Lab is a monthly subscription-based mail club, where active members receive a postcard print of artwork by yours truly each month.</p>
+        <img class="" src="artlab.png" alt="Art Overview">
+        <h2>How it works:</h2>
+        <ol>
+            <li>Sign up to join the mailclub below.</li>
+            <li>Requests to join will be processed in accordance with the month's availability. Once the request is approved, you will receive a payment link at the provided email.</li>
+            <li>Email <a href="mailto:artlabbyjocelyn@gmail.com">artlabbyjocelyn@gmail.com</a> anytime to update your address or to change your membership.</li>
+            <li>Receive a piece of my artwork (and gratitude!) in the mail each month.</li>
+        </ol>
+
+        <h2>Join the mail club</h2>
+
+        <form class="signup" id="signup-form" novalidate>
+
+            <div class="field">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" autocomplete="name" required>
+            </div>
+
+            <div class="field">
+                <div class="field-row">
+                    <div>
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" autocomplete="email" required>
+                    </div>
+                    <div>
+                        <label for="state">State</label>
+                        <select id="state" name="state" autocomplete="address-level1" required>
+                            <option value="" selected disabled></option>
+                            <option>AL</option><option>AK</option><option>AZ</option><option>AR</option>
+                            <option>CA</option><option>CO</option><option>CT</option><option>DE</option>
+                            <option>DC</option><option>FL</option><option>GA</option><option>HI</option>
+                            <option>ID</option><option>IL</option><option>IN</option><option>IA</option>
+                            <option>KS</option><option>KY</option><option>LA</option><option>ME</option>
+                            <option>MD</option><option>MA</option><option>MI</option><option>MN</option>
+                            <option>MS</option><option>MO</option><option>MT</option><option>NE</option>
+                            <option>NV</option><option>NH</option><option>NJ</option><option>NM</option>
+                            <option>NY</option><option>NC</option><option>ND</option><option>OH</option>
+                            <option>OK</option><option>OR</option><option>PA</option><option>RI</option>
+                            <option>SC</option><option>SD</option><option>TN</option><option>TX</option>
+                            <option>UT</option><option>VT</option><option>VA</option><option>WA</option>
+                            <option>WV</option><option>WI</option><option>WY</option>
+                        </select>
+                    </div>
+                </div>
+                <p class="hint">At this time, Artlab can only support delivery within the US.</p>
+            </div>
+
+            <fieldset>
+                <legend>Subscription</legend>
+                <div class="choices">
+                    <label class="choice">
+                        <input type="radio" name="subscription" value="Monthly - $6/month" required>
+                        <span>Monthly <span class="price">$6/month</span></span>
+                    </label>
+                    <label class="choice">
+                        <input type="radio" name="subscription" value="Annual - $64.80/year">
+                        <span>Annual <span class="price">$64.80/year &mdash; 10% off</span></span>
+                    </label>
+                    <label class="choice">
+                        <input type="radio" name="subscription" value="Gift 3 months - $18">
+                        <span>Gift &mdash; 3 months <span class="price">$18</span></span>
+                    </label>
+                    <label class="choice">
+                        <input type="radio" name="subscription" value="Gift 6 months - $36">
+                        <span>Gift &mdash; 6 months <span class="price">$36</span></span>
+                    </label>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Are you interested in writing back?</legend>
+                <div class="choices inline">
+                    <label class="choice">
+                        <input type="radio" name="writeback" value="Yes" required>
+                        <span>Yes</span>
+                    </label>
+                    <label class="choice">
+                        <input type="radio" name="writeback" value="No">
+                        <span>No</span>
+                    </label>
+                </div>
+            </fieldset>
+
+            <div class="field">
+                <label for="notes">Anything else? (optional)</label>
+                <textarea id="notes" name="notes" rows="1"></textarea>
+            </div>
+
+            <!-- Honeypot: hidden from people, irresistible to form-filling bots.
+                 Anything submitted with this filled in is rejected server-side. -->
+            <div class="hp" aria-hidden="true">
+                <label for="website">Website</label>
+                <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+            </div>
+
+            <button type="submit">Send request</button>
+            <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
 
     </article>
+
+    <script>
+        (function () {
+            // Google Apps Script web app URL — see artlab-form-setup.md. Must be the
+            // deployment's /exec URL. Until it is set, the form falls back to
+            // downloading the CSV row locally so the flow can be tested.
+            var ENDPOINT = "https://script.google.com/macros/s/AKfycbyzeA1qQLdEAUyFked2MmT_y3GRKa3Ny9ATDWNyNSVaCe3-yaL6JlPBgP5yILpqPPRIxQ/exec";
+
+            // Shared secret, checked by doPost before a row is appended. This is visible
+            // in page source — it filters drive-by bots, not a determined person.
+            var SECRET = "04058a64cc1a98de";
+
+            var FIELDS = ["timestamp", "name", "email", "state", "subscription", "writeback", "notes"];
+
+            // Bots submit almost instantly; people take time to fill this in. doPost
+            // rejects anything faster than its threshold.
+            var loadedAt = Date.now();
+
+            var form = document.getElementById("signup-form");
+            var status = document.getElementById("form-status");
+            var button = form.querySelector("button[type=submit]");
+
+            // RFC 4180: wrap in quotes, and double any quote inside.
+            function csvCell(value) {
+                var s = (value === null || value === undefined) ? "" : String(value);
+                return '"' + s.replace(/"/g, '""') + '"';
+            }
+
+            function csvRow(record) {
+                return FIELDS.map(function (key) { return csvCell(record[key]); }).join(",");
+            }
+
+            // Accepts a string, or a node when the message needs a link inside it.
+            function setStatus(message, kind) {
+                status.textContent = "";
+                if (typeof message === "string") {
+                    status.textContent = message;
+                } else {
+                    status.appendChild(message);
+                }
+                status.className = "form-status" + (kind ? " is-" + kind : "");
+            }
+
+            function submissionError() {
+                var frag = document.createDocumentFragment();
+                var link = document.createElement("a");
+                link.href = "mailto:artlabbyjocelyn@gmail.com";
+                link.textContent = "artlabbyjocelyn@gmail.com";
+                frag.appendChild(document.createTextNode(
+                    "Form submission error. Apologies for the inconvenience! Please email "));
+                frag.appendChild(link);
+                frag.appendChild(document.createTextNode(" to sign-up."));
+                return frag;
+            }
+
+            // Replace the whole form with the confirmation, so it reads as a completed
+            // step rather than an empty form with a message under it.
+            function showThanks() {
+                var thanks = document.createElement("p");
+                thanks.className = "form-thanks";
+                thanks.setAttribute("role", "status");
+                thanks.textContent = "Thank you very much for your interest and support! " +
+                    "I will reach out shortly regarding availability and payment.";
+                form.replaceWith(thanks);
+            }
+
+            function downloadRow(row) {
+                var blob = new Blob([FIELDS.join(",") + "\n" + row + "\n"], { type: "text/csv" });
+                var link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = "artlab-signup.csv";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(link.href);
+            }
+
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
+
+                // novalidate is on the form so we control when messages appear.
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+
+                var data = new FormData(form);
+                var record = { timestamp: new Date().toISOString() };
+                FIELDS.slice(1).forEach(function (key) {
+                    record[key] = (data.get(key) || "").toString().trim();
+                });
+
+                var row = csvRow(record);
+                button.disabled = true;
+                setStatus("Sending…");
+
+                // A library URL or an unset placeholder can't receive a POST — only a
+                // deployed web app's /exec URL can.
+                if (!/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(ENDPOINT)) {
+                    downloadRow(row);
+                    setStatus("No endpoint configured yet — downloaded the CSV row instead.", "error");
+                    button.disabled = false;
+                    return;
+                }
+
+                fetch(ENDPOINT, {
+                    method: "POST",
+                    // text/plain keeps this a CORS "simple request", so Apps Script
+                    // does not need to answer a preflight.
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify({
+                        secret: SECRET,
+                        hp: (data.get("website") || "").toString(),
+                        elapsedMs: Date.now() - loadedAt,
+                        row: row,
+                        record: record
+                    })
+                })
+                    .then(function (response) {
+                        if (!response.ok) { throw new Error("Request failed: " + response.status); }
+                        form.reset();
+                        showThanks();
+                    })
+                    .catch(function () {
+                        setStatus(submissionError(), "error");
+                    })
+                    .then(function () {
+                        button.disabled = false;
+                    });
+            });
+        }());
+    </script>
 
 </body>
 
 </html>
+
+
+
+ 
