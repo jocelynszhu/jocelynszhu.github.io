@@ -177,6 +177,42 @@ article p {
     font-size: 1.05rem;
 }
 
+/* Sits at the end of the intro paragraph, so it needs weight to stand apart. */
+.announce {
+    font-weight: 700;
+}
+
+/* ---------- how it works ---------- */
+
+.steps {
+    /* The global reset zeroes list padding — put the marker indent back. */
+    padding-left: 1.7em;
+    margin: 0;
+}
+
+.steps li {
+    font-size: 1.05rem;
+    padding-left: 0.4em;
+    margin-bottom: 12px;
+}
+
+.steps li:last-child {
+    margin-bottom: 0;
+}
+
+/* Numbers quiet enough to guide without competing with the text. */
+.steps li::marker {
+    color: rgba(61, 14, 3, 0.45);
+}
+
+/* A quiet aside under a block — smaller, italic, dimmed. */
+.note {
+    font-size: 0.9rem;
+    font-style: italic;
+    opacity: 0.6;
+    margin-top: 16px;
+}
+
 /* ---------- research entries ---------- */
 
 .entry {
@@ -365,14 +401,26 @@ article img {
     margin-left: 4px;
 }
 
+/* Which month a request made today is for. */
+#target-month {
+    margin-bottom: 18px;
+}
+
+/* Stripe buy button, revealed only when the chosen month has room. */
+.pay {
+    max-width: 34em;
+    margin-top: 20px;
+}
+
+/* Takes the place of checkout when the month is full or not open yet. */
+.waitlist {
+    margin-top: 18px;
+}
+
 .form-status {
     font-size: 0.9rem;
     margin-top: 14px;
     min-height: 1.4em;
-}
-
-.form-status.is-ok {
-    opacity: 0.85;
 }
 
 .form-status.is-error {
@@ -384,12 +432,11 @@ article img {
     text-decoration: underline;
 }
 
-.form-thanks {
-    max-width: 34em;
+.form-status.is-thanks {
     font-size: 1.05rem;
-    padding: 22px 0;
+    margin-top: 20px;
+    padding-top: 18px;
     border-top: 1px solid rgba(61, 14, 3, 0.25);
-    border-bottom: 1px solid rgba(61, 14, 3, 0.25);
 }
 
 .signup button[disabled] {
@@ -414,6 +461,41 @@ article img {
 .signup button:hover {
     background: transparent;
     color: var(--ink);
+}
+
+/* ---------- letter page (launch.html) ---------- */
+
+/* No site header on that page, so the letter carries its own margins. */
+.letter {
+    max-width: 34em;
+    margin: 0 auto;
+    padding: 48px 20px 90px;
+}
+
+.back-link {
+    display: inline-block;
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.55;
+    margin-bottom: 44px;
+    transition: opacity 0.15s ease;
+}
+
+.back-link:hover {
+    text-decoration: none;
+    opacity: 1;
+}
+
+.letter p {
+    font-size: 1.05rem;
+    margin-bottom: 20px;
+}
+
+.letter .signoff {
+    margin-top: 32px;
+    margin-bottom: 0;
 }
 
 .contact-icons {
@@ -489,5 +571,27 @@ article img {
     article {
         padding: 0 15px;
         margin: 20px auto;
+    }
+
+    .steps {
+        padding-left: 1.3em;
+    }
+
+    .steps li {
+        font-size: 1rem;
+        padding-left: 0.2em;
+        margin-bottom: 14px;
+    }
+
+    .note {
+        font-size: 0.85rem;
+    }
+
+    .letter {
+        padding: 32px 15px 60px;
+    }
+
+    .back-link {
+        margin-bottom: 32px;
     }
 }
